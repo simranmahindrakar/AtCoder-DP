@@ -1,0 +1,33 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	int height[n+1];   //to store the input array
+	for(int i=0; i<n; i++)
+	{
+		cin>>height[i];
+	}
+	vector<int> dp(n+2, 1e9);  //dp table initialised to a very large number
+	dp[0]=0;
+	for(int i=0; i<=n; i++)
+	{
+		for(int j : {i+1,i+2})           //range based for loop. only valid choices for j are j=i+1 and j=i+2
+		{
+			if(j<n)   //j should not go out of range
+			{
+				dp[j] = min(dp[j] , dp[i] + abs(height[i] - height[j]));
+			}                   //where he is currently standing + the cost of the next jump
+		}
+	}
+	cout<<dp[n-1];
+	
+}
+
+This is a cost minimization problem or optimization problem. Hence we use DP to solve it.
+state of dp:
+dp[i] = minimum cost to reach stone i from stone 1.
+dp[0] = 0 because it take 0 cost to go no where.
+Imagine the frog is on stone i. Where can he go from here? He can jump to stone(i+1) or stone(i+2). He will choose the stone such that the cost is minimum.
